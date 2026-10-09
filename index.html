@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M&A Deal Hub | Intelligence & Financial Research Terminal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="brand">
+          <div class="brand-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v4"/><path d="M12 14v4"/><path d="M16 14v4"/></svg>
+          </div>
+          <div>
+            <div class="brand-text">M&A DEAL HUB</div>
+            <div class="brand-tagline">GLOBAL INTELLIGENCE TERMINAL</div>
+          </div>
+        </div>
+        <span class="live-pill"><span class="dot"></span> 100 VERIFIED DEALS</span>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-item active" onclick="navigate('explorer-view')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Database
+        </button>
+        <button class="nav-item" onclick="navigate('analytics-view')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </button>
+        <button class="nav-item" onclick="navigate('methodology-view')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Methodology
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-wrapper">
+    <!-- VIEW 1: EXPLORER -->
+    <section id="explorer-view" class="view active">
+      <div class="hero-section">
+        <div class="hero-badge">INSTITUTIONAL M&A DATABASE</div>
+        <h1>Discover the deals shaping global business.</h1>
+        <p>Curated and verified repository of 100 defining corporate mergers, acquisitions, and strategic transactions.</p>
+        
+        <div class="terminal-stats-strip">
+          <div class="strip-item"><span class="lbl">TOTAL TRACKED VOLUME</span><span class="val" id="stripVolume">-</span></div>
+          <div class="strip-item"><span class="lbl">AVG DEAL SIZE</span><span class="val" id="stripAvg">-</span></div>
+          <div class="strip-item"><span class="lbl">LARGEST DEAL</span><span class="val" id="stripMax">-</span></div>
+          <div class="strip-item"><span class="lbl">COMPLETED RATIO</span><span class="val" id="stripRatio">-</span></div>
+        </div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="controls-card">
+        <div class="search-field">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by acquirer, target, or keyword (e.g., Microsoft, Pfizer, Energy)..." oninput="applyFilters()">
+        </div>
+        <div class="filter-group">
+          <select id="sectorFilter" onchange="applyFilters()">
+            <option value="All">All Sectors</option>
+          </select>
+          <select id="statusFilter" onchange="applyFilters()">
+            <option value="All">All Statuses</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="Terminated">Terminated</option>
+          </select>
+          <select id="sortFilter" onchange="applyFilters()">
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="val-desc">Highest Value</option>
+            <option value="val-asc">Lowest Value</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="table-wrapper">
+        <div class="table-header-info">
+          <span id="resultsCount">Showing 0 transactions</span>
+          <span class="table-tip">Click any row for strategic rationale & terms</span>
+        </div>
+        <table class="deal-table">
+          <thead>
+            <tr>
+              <th>ACQUIRER</th>
+              <th>TARGET</th>
+              <th>SECTOR</th>
+              <th>VALUE (USD)</th>
+              <th>STATUS</th>
+              <th>ANNOUNCED</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody id="dealsTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-bar" id="paginationControls"></div>
+    </section>
+
+    <!-- VIEW 2: ANALYTICS -->
+    <section id="analytics-view" class="view">
+      <div class="view-header">
+        <h2>Intelligence & Statistical Analysis</h2>
+        <p>Market patterns, deal size distributions, and sector concentrations based exclusively on the active 100-deal dataset.</p>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="card-head">
+            <h3>Deal Volume by Sector</h3>
+            <span class="sub">Total disclosed transaction capital</span>
+          </div>
+          <div id="sectorBarChart" class="bar-chart-container"></div>
+        </div>
+        <div class="chart-card">
+          <div class="card-head">
+            <h3>Deal Status Breakdown</h3>
+            <span class="sub">Success and regulatory friction distribution</span>
+          </div>
+          <div id="statusBreakdown" class="donut-fallback-container"></div>
+        </div>
+      </div>
+
+      <div class="chart-card mt-6">
+        <div class="card-head">
+          <h3>Top 10 Mega-Transactions in Database</h3>
+          <span class="sub">Historically historic nominal enterprise values</span>
+        </div>
+        <div id="topDealsList" class="top-deals-strip"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: METHODOLOGY -->
+    <section id="methodology-view" class="view">
+      <div class="view-header">
+        <h2>Methodology & Research Integrity</h2>
+        <p>Standards, verification methods, and data taxonomy utilized across M&A Deal Hub.</p>
+      </div>
+
+      <div class="methodology-content">
+        <div class="method-card">
+          <h3>1. Transaction Qualification Standards</h3>
+          <p>Transactions enter this repository upon execution of definitive statutory merger agreements, stock purchases exceeding 50% voting equity, or critical asset consolidations. Speculative rumors and unconfirmed bids are excluded.</p>
+        </div>
+        <div class="method-card">
+          <h3>2. Currency & Nominal Disclosed Valuations</h3>
+          <p>All values represent disclosed Transaction/Enterprise Values at announcement converted to USD where applicable. Non-disclosed private transactions are preserved as <em>Undisclosed</em> and explicitly omitted from denominator averages to avoid skewing.</p>
+        </div>
+        <div class="method-card">
+          <h3>3. Termination & Regulatory Intervention</h3>
+          <p>Deals dissolved due to DOJ/FTC antitrust challenges, CMA (UK) blocks, European Commission interventions, or mutual commercial walkaways are categorized as <em>Terminated</em> to reflect market friction accurately.</p>
+        </div>
+        <div class="method-card notice">
+          <h3>Institutional Disclaimer</h3>
+          <p>M&A Deal Hub is an academic, data-driven financial research terminal. Information is synthesized from SEC 8-K filings, corporate press releases, and global financial disclosures. It does not constitute investment advice or securities recommendations.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Detail -->
+  <div id="detailModal" class="modal-backdrop" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <span class="deal-badge-type" id="modalType">TRANSACTION</span>
+          <h2 id="modalTitle">Acquirer & Target</h2>
+        </div>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-metrics-grid">
+        <div class="m-metric"><span class="m-lbl">TRANSACTION VALUE</span><span class="m-val highlight" id="modalValue">-</span></div>
+        <div class="m-metric"><span class="m-lbl">STATUS</span><span class="m-val" id="modalStatus">-</span></div>
+        <div class="m-metric"><span class="m-lbl">ANNOUNCED DATE</span><span class="m-val" id="modalAnnounced">-</span></div>
+        <div class="m-metric"><span class="m-lbl">COMPLETED DATE</span><span class="m-val" id="modalCompleted">-</span></div>
+      </div>
+      <div class="modal-body-section">
+        <h4>TRANSACTION OVERVIEW</h4>
+        <p id="modalDesc">-</p>
+      </div>
+      <div class="modal-body-section">
+        <h4>STRATEGIC RATIONALE</h4>
+        <p id="modalRationale">-</p>
+      </div>
+      <div class="modal-footer">
+        <span class="m-sub" id="modalSector">Sector: -</span>
+        <button class="btn-primary" onclick="closeModal()">Close Terminal Window</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="terminal-footer">
+    <div class="footer-inner">
+      <span>M&A Deal Hub &copy; 2026. Global Financial Terminal Prototype.</span>
+      <span class="footer-meta">100 Records Audited &bull; SEC EDGAR / Corporate Disclosure Standard</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
